@@ -1,0 +1,7 @@
+# This config is used for Dreamhost which HTTP basic authoriztion is forbidden.
+# The PHP Server variable 'PHP_AUTH_USER' & 'PHP_AUTH_PW' could be implement by
+# this config via a CGI environment variable.
+# From [HTTP Authentication on PHP as CGI (like Dreamhost)](http://planetozh.com/blog/2009/04/http-authentication-on-php-as-cgi-like-dreamhost/)
+
+RewriteEngine on
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]

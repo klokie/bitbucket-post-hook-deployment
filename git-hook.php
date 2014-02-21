@@ -9,7 +9,11 @@
  * 
  * then this script will pull the origin/dev down.
  * 
- * Notice
+ * ## Usage ##
+ * 
+ * Copy the both files to your Dreamhost site web root.
+ * 
+ * ## Notice ##
  * 
  * Before start a push you need to something below:
  * 
@@ -17,7 +21,7 @@
  * 2. Add the ssh public key to Bitbucket deploy keys (I'm not sure of this, but I added mine).
  * 3. Checkout the branch you want to deploy So that the pulled code will be present on your test site.
  * 
- * Thanks
+ * ## Thanks ##
  * 
  * The Deploy class is from Brandon's post:
  * 
