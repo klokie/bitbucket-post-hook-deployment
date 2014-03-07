@@ -31,7 +31,7 @@
 $domain   = 'your.test.domain';
 $user     = 'git';
 $pass     = 'pass';
-$branch   = 'dev';
+$branch   = $_GET['branch'] ? $_GET['branch'] : 'master';
 $log_path = "../logs/$domain/deployments.log";
 
 
