@@ -5,17 +5,14 @@
  * 
  * When push branch 'master' to bitbucket, the post hook will invoke this url:
  * 
- *	http://git:pass@your.test.domain/git-hook.php
+ *	http://git:pass@yourdomain.com/git-hook.php
  * 
  * then this script will pull the origin/master down.
  * 
  * ## Usage ##
  * 
  * 1. Copy the both files to your Dreamhost site web root.
- * 2. Add post hook URL in your bitbucket repo admin panel like this:
- * 	
- * 	http://git:pass@yourdomain.com/git-hook.php
- * 
+ * 2. Add post hook URL into your bitbucket repo admin panel.
  * 3. Initialize your git repo on Dreamhost, including add remote as a ssh protocol.
  * 4. Add the ssh public key to Bitbucket deploy keys.
  * 5. Checkout the branch you want to deploy So that the pulled code will be present on your site.
