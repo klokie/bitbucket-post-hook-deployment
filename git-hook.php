@@ -28,7 +28,7 @@ $domain   = 'your.test.domain';
 $user     = 'git';
 $pass     = 'pass';
 $branch   = $_GET['branch'] ? $_GET['branch'] : 'master';
-$log_path = "../logs/$domain/deployments.log";
+$log_path = "deployments.log";
 
 
 
@@ -179,7 +179,8 @@ $deploy->post_deploy = function() use ($deploy) {
 	// Anything to do when git pull done.
 };
 
-$deploy->log($_SERVER['HTTP_AUTHORIZATION']);
+// this is just for debug, or would leak the auth infomation.
+// $deploy->log($_SERVER['HTTP_AUTHORIZATION']);
 
 list($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']) =
 	explode(':' , base64_decode(substr($_SERVER['HTTP_AUTHORIZATION'], 6)));
@@ -194,7 +195,12 @@ if ($_SERVER['HTTP_HOST'] == $domain &&
 		$commits = $data['commits'];
 		$last = array_pop($commits);
 		if ($last['branch'] == $branch) {
-			$deploy->execute();
+			// using a flag file to avoid duplicated triggering
+			if (!file_exists('.deploying')) {
+				touch('.deploying');
+				$deploy->execute();
+				unlink('.deploying');
+			}
 		}
 	} else {
 		$deploy->log('No commits updated on branch: '.$branch);
