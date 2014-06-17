@@ -1,6 +1,6 @@
 <?php
 define('CONFIGFILE', '.' . DIRECTORY_SEPARATOR . 'config.ini');
-require_once('.' . DIRECTORY_SEPARATOR . 'Deploy.php');
+require_once('.' . DIRECTORY_SEPARATOR . 'Deploy' . DIRECTORY_SEPARATOR . 'Deploy.php');
 
 //define('DEBUG', true);
 
