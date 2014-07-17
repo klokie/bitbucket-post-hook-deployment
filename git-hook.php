@@ -4,6 +4,9 @@ require_once('.' . DIRECTORY_SEPARATOR . 'Deploy' . DIRECTORY_SEPARATOR . 'Deplo
 
 //define('DEBUG', true);
 
+$payload = array();
+$deploy = new StdClass();
+
 // default configuration, may be overridden in config file
 $config = array();
 $config['domain']   = 'your.test.domain';
@@ -26,16 +29,18 @@ if (empty($config['branch'])) {
     }
 }
 
-try {
-    $payload = $_POST['payload'];
-    $payload = json_decode($payload, true);
-
-    // override with repo-specific config options
-    if (isset($payload['repository']) && isset($config[$payload['repository']['slug']])) {
-        $config = array_merge($config, $config[$payload['repository']['slug']]);
+if (isset($_POST['payload'])) {
+    try {
+        $payload = $_POST['payload'];
+        $payload = json_decode($payload, true);
+        
+        // override with repo-specific config options
+        if (isset($payload['repository']) && isset($config[$payload['repository']['slug']])) {
+            $config = array_merge($config, $config[$payload['repository']['slug']]);
+        }
+    } catch( Exception $ErrorHandle ) {
+        die(json_encode($ErrorHandle->getMessage()));
     }
-} catch( Exception $ErrorHandle ) {
-    die(json_encode($ErrorHandle->getMessage()));
 }
 
 if (defined('DEBUG')) {
@@ -78,7 +83,7 @@ if ($_SERVER['HTTP_HOST'] == $config['domain'] &&
             $deploy->log('No commits updated on branch: '.$config['branch']);
         }
     }
-} else {
+} else if ($deploy instanceof Deploy) {
 	$deploy->log('HTTP Basic Authorization failed.', 'ERROR');
 	header('WWW-Authenticate: Basic realm="'.$_SERVER['HTTP_HOST'].'"');
 	header('HTTP/1.1 401 Unauthorized');
