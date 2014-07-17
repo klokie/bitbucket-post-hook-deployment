@@ -4,4 +4,19 @@
 # From [HTTP Authentication on PHP as CGI (like Dreamhost)](http://planetozh.com/blog/2009/04/http-authentication-on-php-as-cgi-like-dreamhost/)
 
 RewriteEngine on
+RewriteBase /
 RewriteRule ^git-hook\.php - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
+
+<Limit GET>
+       AuthType Basic
+       AuthName "Restricted Files"
+
+       # EDIT ME
+       AuthUserFile "/var/www/.htpasswd"
+
+       Require valid-user
+       Order deny,allow
+       Deny from all
+       Allow from 127.0.0.1			# ALLOW FROM localhost
+       Satisfy Any
+</Limit>
