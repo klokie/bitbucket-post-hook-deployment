@@ -59,7 +59,7 @@ class Deploy {
      * Sets up defaults.
      * 
      * @param  string  $directory  Directory where your website is located
-     * @param  array   $data       Information about the deployment
+     * @param  array   $options       Information about the deployment
      */
 	public function __construct($directory, $options = array()) {
 		// Determine the directory path
@@ -122,6 +122,9 @@ class Deploy {
             $this->log('Securing .git directory... ');
 
             if (is_callable($this->post_deploy)) {
+              if (empty($this->_data)) {
+                $this->_data = array();
+              }
                 call_user_func($this->post_deploy, $this->_data);
             }
 
